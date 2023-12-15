@@ -1,0 +1,42 @@
+# Import
+from py_canoe import CANoe
+#canoe_int = CANoe()
+canoe_inst = CANoe()
+from time import sleep as wait
+canoe_inst.open(canoe_cfg=r"R:\Canoe\Practice_1\CANSystemDemo.cfg")
+canoe_inst.stop_measurement()
+canoe_inst.start_measurement()
+canoe_inst.get_canoe_version_info()
+wait(5)
+# canoe_int.stop_measurement()
+# canoe_int.get_signal_full_name(1,1,1,1)
+sig_value = canoe_inst.get_signal_value('CAN', 2, 'EngineData', 'EngTemp')
+print(sig_value)
+wait(1)
+canoe_inst.check_signal_state('CAN', 2, 'EngineData', 'EngTemp')
+# canoe_inst.get_can_bus_statistics(2)
+canoe_inst.check_signal_online('CAN', 2, 'EngineData', 'EngTemp')
+canoe_inst.set_signal_value('CAN', 2, 'EngineData', 'EngTemp', 90)
+sig_value = canoe_inst.get_signal_value('CAN', 2, 'EngineData', 'EngTemp')
+print(sig_value)
+canoe_inst.get_system_variable_value('ComfortBus::CarSpeedEuropean')
+sys_value = canoe_inst.set_system_variable_value('ComfortBus::CarSpeedEuropean', 16.220000000000000)
+print(sys_value)
+sig_name = canoe_inst.get_signal_full_name('CAN', 2, 'EngineData', 'EngTemp')
+print(sig_name)
+resp = canoe_inst.send_diag_request('Engine', '10 01')
+print(resp)
+canoe_inst.write_text_in_write_window("hi")
+write_data = canoe_inst.read_text_from_write_window()
+print(write_data)
+canoe_inst.clear_write_window_content()
+write_data = canoe_inst.read_text_from_write_window()
+print(write_data)
+if sig_value >= 30:
+    print("pass")
+else:
+    print("fail")
+
+
+# canoe_inst.send_diag_request()
+canoe_inst.stop_measurement()
